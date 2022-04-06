@@ -11,14 +11,12 @@ app.use(bodyParser.json());
 app.use(cors());
 
 mongoose
-        .connect('',{
-            useNewUrlParser: true,
-            useCreateIndex: true
+        .connect('mongodb://localhost:27017',{
+            useNewUrlParser: true
         })
         .then(() => console.log('connected to mongoDB'))
         .catch((err) => console.error(err));
 
-mongoose.set('userFindAndModify',false);
 
 
 app.use((req, res, next) => {

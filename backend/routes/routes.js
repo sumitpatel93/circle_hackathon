@@ -3,10 +3,8 @@ const router = new express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const isEmpty = require("is-empty");
-const UserInfo = require("../../models/UserInfo");
-
-
-
+const UserInfo = require("../models/userinfos");
+const keys = require("../config/keys");
 
 
 router.post("/register", async (req, res) => {
@@ -15,10 +13,7 @@ router.post("/register", async (req, res) => {
       const email = req.body.email;
       const password = req.body.password;
       const companyName = req.body.companyName;
-      const credentialDocument = req.body.credentialDocument;
       const confirmPassword = req.body.confirmPassword;
-  
-      if (!isEmpty(errors)) return res.status(400).json({ Body: errors });
   
       const user = await UserInfo.findOne({ email });
       if (user) return res.status(400).json({ Body: "EMAIL_ALREADY_REGISTERED" });
@@ -29,7 +24,6 @@ router.post("/register", async (req, res) => {
         password: password,
         username: `MEM${i}`,
         companyName: companyName,
-        credentialDocument: credentialDocument,       
         confirmPassword: confirmPassword,
       });
 
@@ -63,7 +57,7 @@ router.post("/register", async (req, res) => {
 
   router.post("/login", async (req, res) => {
     try {
-        
+
       const email = req.body.email;
       const password = req.body.password;
       console.log(errors);
@@ -101,3 +95,4 @@ router.post("/register", async (req, res) => {
     }
   });
   
+  module.exports = router;
