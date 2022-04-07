@@ -7,6 +7,7 @@ const app = express();
 
 const routes = require('./routes/routes');
 
+
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -30,6 +31,7 @@ app.use('/request-type', (req, res, next) => {
 });
 
 app.use('/circleHackathon', routes);
+
 
 
 app.listen(3000, () => console.log('App is listening on port 3000.'));
