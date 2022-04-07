@@ -1,6 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var request = require('request');
+const express = require('express');
+const router = express.Router();
+const request = require('request');
+const CIRLCE_API_KEY=process.env.CIRLCE_API_KEY
+
 
 var data = {
     "idempotencyKey": "6ae62bf2-bd71-49ce-a599-165ffcc33680",
@@ -20,12 +22,17 @@ var data = {
     }
   };
 
-router.post('/', function(req, res, next) {
+router.post('/', (req, res, next) => {
   request({
-    headers: {'content-type' : 'application/json'},
+    headers: {'content-type' : 'application/json', 'Authorization' : CIRLCE_API_KEY},
     uri: 'https://api-sandbox.circle.com/v1/banks/wires',
-    body : data
+    body : data,
+    json: true
   }).pipe(res);
 });
 
-module.exports = router;
+router.get('/', (req, res, next) => {
+    res.send('In Payouts')
+  });
+
+module.exports=router

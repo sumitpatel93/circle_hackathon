@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken");
 const isEmpty = require("is-empty");
 const UserInfo = require("../models/userinfos");
 const keys = require("../config/keys");
-const payouts = require('./payouts');
-
 
 router.post("/register", async (req, res) => {
     try {
@@ -95,7 +93,5 @@ router.post("/register", async (req, res) => {
       });
     }
   });
-
-  router.post("/payouts", payouts);
 
   module.exports = router;

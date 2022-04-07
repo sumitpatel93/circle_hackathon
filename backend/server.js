@@ -6,6 +6,7 @@ require("dotenv").config();
 const app = express();
 
 const routes = require('./routes/routes');
+const payoutsRoutes = require('./routes/payouts');
 
 
 app.use(bodyParser.json());
@@ -31,7 +32,7 @@ app.use('/request-type', (req, res, next) => {
 });
 
 app.use('/circleHackathon', routes);
-
+app.use('/payouts',payoutsRoutes);
 
 
 app.listen(3000, () => console.log('App is listening on port 3000.'));

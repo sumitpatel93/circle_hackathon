@@ -1,7 +1,5 @@
-post http://localhost:3000/payouts
-Content-Type: application/json
+GET http://localhost:3000/payouts
 
-{}
 
 
 # post https://api-sandbox.circle.com/v1/banks/wire
