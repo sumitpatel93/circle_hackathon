@@ -1,33 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const { uuid } = require('uuidv4');
+
 const CIRLCE_API_KEY=process.env.CIRLCE_API_KEY
+const BASE_URL = process.env.BASE_URL
 
 var data = {
-    "idempotencyKey": "6ae62bf2-bd71-49ce-a599-165ffcc33680",
-    "beneficiaryName": "John Smith",
-    "accountNumber": "123456789",
-    "routingNumber": "021000021",
-    "billingDetails": {
-      "name": "John Smith",
-      "city": "Boston",
-      "country": "US",
-      "line1": "1 Main Street",
-      "district": "MA",
-      "postalCode": "02201"
+    "source": {
+        "type": "wallet",
+        "id": "1000863569"
     },
-    "bankAddress": {
-      "country": "US"
-    }
-  };
+    "destination": {
+        "type": "wire",
+        "id": "7733e064-0fdc-47e9-9d7d-354f5a9baeca"
+    },
+    "amount": {
+        "amount": "3",
+        "currency": "USD"
+    },
+    "metadata": {
+        "beneficiaryEmail": "john.smith@email.com"
+    },
+    "idempotencyKey": uuid()
+};
 
   var config = {
     method: 'post',
-    url: 'https://api-sandbox.circle.com/v1/banks/wires',
+    url: BASE_URL+'payouts',
     headers: { 
       'Accept': 'application/json', 
       'Content-Type': 'application/json', 
-      'Authorization': 'Bearer' + CIRLCE_API_KEY
+      'Authorization': 'Bearer ' + CIRLCE_API_KEY
     },
     data : data
   };
