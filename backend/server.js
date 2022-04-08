@@ -6,6 +6,10 @@ require("dotenv").config();
 const app = express();
 
 const routes = require('./routes/routes');
+const payoutsRoutes = require('./routes/payouts');
+const walletRoutes = require('./routes/wallets');
+
+
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -16,7 +20,6 @@ mongoose
         })
         .then(() => console.log('connected to mongoDB'))
         .catch((err) => console.error(err));
-
 
 
 app.use((req, res, next) => {
@@ -30,6 +33,9 @@ app.use('/request-type', (req, res, next) => {
 });
 
 app.use('/circleHackathon', routes);
+app.use('/payouts',payoutsRoutes);
+app.use('/wallets',walletRoutes);
 
 
-app.listen(3000, () => console.log('App is listening on port 3000.'));
+
+app.listen(process.env.PORT, () => console.log('App is listening on port ' + process.env.PORT + '.'));

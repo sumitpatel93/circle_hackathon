@@ -1,0 +1,31 @@
+ GET http://localhost:3000/payouts
+ Content-Type: application/json
+
+ {
+     "user" : "anchit"
+ }
+
+
+
+# post https://api-sandbox.circle.com/v1/banks/wires
+# Content-Type: application/json
+# Authorization: Bearer QVBJX0tFWTo5NjU3MTNkYTAyZjNmOGQxMmQ2MGI3MmQ2YTYwZjg2Njo3MDAwMDMzNWZjY2Q5YjFlNzVmMjc2ZTZjNjI5MjM3Ng
+
+# {
+#   "idempotencyKey": "6ae62bf2-bd71-49ce-a599-165ffcc33680",
+#   "beneficiaryName": "John Smith",
+#   "accountNumber": "123456789",
+#   "routingNumber": "021000021",
+#   "billingDetails": {
+#     "name": "John Smith",
+#     "city": "Boston",
+#     "country": "US",
+#     "line1": "1 Main Street",
+#     "district": "MA",
+#     "postalCode": "02201"
+#   },
+#   "bankAddress": {
+#     "country": "US"
+#   }
+# }
+

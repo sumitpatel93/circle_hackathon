@@ -6,7 +6,6 @@ const isEmpty = require("is-empty");
 const UserInfo = require("../models/userinfos");
 const keys = require("../config/keys");
 
-
 router.post("/register", async (req, res) => {
     try {
       
@@ -94,5 +93,5 @@ router.post("/register", async (req, res) => {
       });
     }
   });
-  
+
   module.exports = router;
