@@ -20,7 +20,6 @@ mongoose
         .catch((err) => console.error(err));
 
 
-
 app.use((req, res, next) => {
   console.log('Time: ', Date.now());
   next();

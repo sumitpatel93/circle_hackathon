@@ -1,8 +1,13 @@
-GET http://localhost:3000/payouts
+ GET http://localhost:3000/payouts
+ Content-Type: application/json
+
+ {
+     "user" : "anchit"
+ }
 
 
 
-# post https://api-sandbox.circle.com/v1/banks/wire
+# post https://api-sandbox.circle.com/v1/banks/wires
 # Content-Type: application/json
 # Authorization: Bearer QVBJX0tFWTo5NjU3MTNkYTAyZjNmOGQxMmQ2MGI3MmQ2YTYwZjg2Njo3MDAwMDMzNWZjY2Q5YjFlNzVmMjc2ZTZjNjI5MjM3Ng
 
