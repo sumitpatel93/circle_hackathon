@@ -47,10 +47,13 @@ function fetchUserByName(string memory _userName)  public view returns (userDeta
     return userDetailsMapping[contract_addr];
 }
 
-// function requestFund(uint256 _userId, uint256 _requestedAmount )  public onlyOwner {
-//     //find user
-//     require( userDetails.userRegistrationTimestamp > 1*year );
-//     require ( userDetails.userCreditScore >= 750 );
-//     //transfer amount to the requested user address
-//  }
+function deposit() payable public {}
+
+function requestFund(string memory _userName , address payable _to ) public payable returns (bool) {
+    //find user
+    address contract_addr = getAddressFromName[_userName];
+    require ( userDetailsMapping[contract_addr].userCreditScore > 700);
+    _to.transfer(msg.value);
+    return true;
+ }
 }

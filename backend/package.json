@@ -22,6 +22,5 @@
     "request": "^2.88.2",
     "uuidv4": "^6.2.13"
   },
-  "devDependencies": {},
   "description": ""
 }
