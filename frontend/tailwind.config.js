@@ -6,11 +6,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'blue': '#192a56',
-        'dark': '#130f40',
+        'black': '#000000',
+        'dark': '#000000',
         'smoke': '#333333',
         'white':'#f5f6fa'
       },
+      fontFamily: {
+        // 'serif': ['ui-serif', 'Georgia'],
+        // 'Lib': ["Libre Baskerville", serif],
+       },
     },
   },
   plugins: [],

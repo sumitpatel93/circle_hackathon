@@ -1,9 +1,17 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import block from '../public/block.jpg'
 const Login = () =>{
     return(
-    <div className="flex text-white font-thin min-h-screen bg-black">
-      <div className="flex flex-col m-2 w-screen">
+    <div className="flex flex-col text-white font-thin min-h-screen bg-black">
+      <div className="sticky top-0 z-10 flex justify-between p-10">
+        <div className="font-bold text-3xl">
+          <Link href="/">
+          EasiFi
+          </Link>
+        </div>
+      </div>
+      <div className="flex flex-col m-2">
         <div className="font-bold text-2xl m-14">
           SME Login
         </div>
@@ -20,7 +28,7 @@ const Login = () =>{
                     <input type="password" className="rounded-md  text-xs border-white text-black p-2" placeholder="Password" />            
                 </span>
                 <span className="m-1 p-2">
-                    <button className="border border-smoke shadow-md px-4 p-2">Login</button>
+                    <button className="bg-smoke shadow-md px-4 p-2">Login</button>
                 </span>
                 
                 </form>
