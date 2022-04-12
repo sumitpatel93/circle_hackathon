@@ -8,6 +8,8 @@ const app = express();
 const routes = require('./routes/routes');
 const payoutsRoutes = require('./routes/payouts');
 const walletRoutes = require('./routes/wallets');
+const bankRoutes = require('./routes/banks');
+const transferRoutes = require('./routes/transfers')
 
 
 
@@ -35,6 +37,9 @@ app.use('/request-type', (req, res, next) => {
 app.use('/circleHackathon', routes);
 app.use('/payouts',payoutsRoutes);
 app.use('/wallets',walletRoutes);
+app.use('/banks',bankRoutes);
+app.use('/transfers',transferRoutes);
+
 
 
 
