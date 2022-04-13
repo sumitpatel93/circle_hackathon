@@ -13,7 +13,7 @@ router.post("/register", async (req, res) => {
       const password = req.body.password;
       const companyName = req.body.companyName;
       const confirmPassword = req.body.confirmPassword;
-  
+
       const user = await UserInfo.findOne({ email });
       if (user) return res.status(400).json({ Body: "EMAIL_ALREADY_REGISTERED" });
   
@@ -54,19 +54,11 @@ router.post("/register", async (req, res) => {
   });
   
 
-  router.post("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
     try {
-
       const email = req.body.email;
       const password = req.body.password;
-      console.log(errors);
-  
-      if (!isEmpty(errors)) {
-        return res.status(400).json({
-          Body: errors,
-        });
-      }
-  
+      
       // Find user by email
       const user = await UserInfo.findOne({ email });
       if (user) {
@@ -90,6 +82,7 @@ router.post("/register", async (req, res) => {
     } catch (e) {
       return res.status(500).json({
         Body: "NETWORK_ERROR",
+        
       });
     }
   });
