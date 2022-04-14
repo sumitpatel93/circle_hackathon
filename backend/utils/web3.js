@@ -62,9 +62,21 @@ const sendSignedTransaction = async () =>{
 }
 
 
-const fetchContractData = (req, res, next) => {
-
+const fetchNumberOfUsers = () => {
+  var contractInstance = new web3.eth.Contract(
+    Key.interface,
+    Key.contractAddress
+  );
+  try {
+    contractInstance.methods.fetchNumberOfUsers().call().then(async result => {
+      console.log(web3.utils.hexToNumberString(result._hex))
+      return web3.utils.hexToNumberString(result._hex);
+    })
+  }
+  catch (e) {
+    console.log(e)
+  }
 }
-
-sendSignedTransaction()
+fetchNumberOfUsers()
+//sendSignedTransaction()
 //module.exports = { sendSignedTransaction, fetchContractData };

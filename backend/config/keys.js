@@ -1,6 +1,6 @@
 module.exports = {
     secretOrKey: "secret",
-    contractAddress: "0x28933f669bE175251118cfd93a304Bf155cCa1Bb",
+    contractAddress: "0x679803E5129FE0498eD62E8F7d5F73bf24Ebd578",
     interface: [
       {
         "inputs": [
