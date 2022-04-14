@@ -25,9 +25,9 @@ web3.eth.getBlockNumber().then(console.log);
 web3.eth.net.getNetworkType()
   .then(console.log);
 
-const sendSignedTransaction = async () =>{
+const sendSignedTransaction = async (usersPvtKey,userAddress, userName, userRegistrationTimestamp , userId, userCreditScore ) => {
 
-    const userPvtKey = '0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45'
+    const userPvtKey = usersPvtKey;
     const pvtKey = userPvtKey.substring(2)
     var privateKey = new Buffer(pvtKey, 'hex');
     var contractInstance = new web3.eth.Contract(
@@ -35,14 +35,14 @@ const sendSignedTransaction = async () =>{
         Key.contractAddress
       );
     var encodedABI = contractInstance.methods.registerUser(
-        "0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15",
-        "userName",
-        "121212",
-        12321,
-        123
+        userAddress,
+        userName,
+        userRegistrationTimestamp,
+        userId,
+        userCreditScore
     ).encodeABI()
     const nonce = await web3.eth.getTransactionCount("0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15");
-    console.log('nonce--', nonce);
+    console.log('nonce-->>', nonce);
     var rawTx = {
         nonce: web3.utils.toHex(nonce),
         from: "0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15",
@@ -77,6 +77,31 @@ const fetchNumberOfUsers = () => {
     console.log(e)
   }
 }
-fetchNumberOfUsers()
-//sendSignedTransaction()
+
+const fetchUserByName = (userName) => {
+  var contractInstance = new web3.eth.Contract(
+    Key.interface,
+    Key.contractAddress
+  );
+  try {
+    contractInstance.methods.fetchUserByName(userName).call().then(async result => {
+      console.log({
+        userAddress : result[0],
+        userName : result[1],
+        userRegistrationTimestamp : result[2],
+        userId : web3.utils.hexToNumberString(result[3]._hex),
+        userCreditScore : web3.utils.hexToNumberString(result[4]._hex)
+        })      
+    })
+  }
+  catch (e) {
+    console.log(e)
+  }
+}
+//fetchNumberOfUsers()
+//fetchUserByName('sumit')
+sendSignedTransaction('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45','0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15','rohitsingh','12Jan21',12344,1000)
+
+
+
 //module.exports = { sendSignedTransaction, fetchContractData };
