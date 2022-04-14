@@ -25,7 +25,7 @@ web3.eth.getBlockNumber().then(console.log);
 web3.eth.net.getNetworkType()
   .then(console.log);
 
-const sendSignedTransaction = async (usersPvtKey,userAddress, userName, userRegistrationTimestamp , userId, userCreditScore ) => {
+exports.sendSignedTransaction = async (usersPvtKey,userAddress, userName, userRegistrationTimestamp , userId, userCreditScore ) => {
 
     const userPvtKey = usersPvtKey;
     const pvtKey = userPvtKey.substring(2)
@@ -62,7 +62,7 @@ const sendSignedTransaction = async (usersPvtKey,userAddress, userName, userRegi
 }
 
 
-const fetchNumberOfUsers = () => {
+exports.fetchNumberOfUsers = () => {
   var contractInstance = new web3.eth.Contract(
     Key.interface,
     Key.contractAddress
@@ -78,30 +78,24 @@ const fetchNumberOfUsers = () => {
   }
 }
 
-const fetchUserByName = (userName) => {
-  var contractInstance = new web3.eth.Contract(
-    Key.interface,
-    Key.contractAddress
-  );
+exports.fetchUserByName = (userName) => {
+  var contractInstance = new web3.eth.Contract( Key.interface, Key.contractAddress );
+  var data;
   try {
-    contractInstance.methods.fetchUserByName(userName).call().then(async result => {
-      console.log({
-        userAddress : result[0],
-        userName : result[1],
-        userRegistrationTimestamp : result[2],
-        userId : web3.utils.hexToNumberString(result[3]._hex),
-        userCreditScore : web3.utils.hexToNumberString(result[4]._hex)
-        })      
+    data = contractInstance.methods.fetchUserByName(userName).call().then(async result => {
+      console.log(result)
+      return result
     })
+    return data
   }
   catch (e) {
     console.log(e)
   }
 }
+
 //fetchNumberOfUsers()
 //fetchUserByName('sumit')
-sendSignedTransaction('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45','0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15','rohitsingh','12Jan21',12344,1000)
+//sendSignedTransaction('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45','0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15','rohitsingh','12Jan21',12344,1000)
 
 
 
-//module.exports = { sendSignedTransaction, fetchContractData };
