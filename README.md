@@ -16,6 +16,12 @@ Folling message will be shown if all goes right.
 
 # Frontend
 
+To run the frontend, cd into the frontend directory in the terminal.
+
+```
+npm i
+npm run dev
+```
 
 
 
