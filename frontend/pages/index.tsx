@@ -36,7 +36,7 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div className="flex h-screen justify-center align-center p-80 text-2xl">
-      Building sustainable framework for the SME (small medium enterprises) to avail loan based on their score of performace) without the need of any bank.
+      Building sustainable framework for the SME (small medium enterprises) to avail loan based on their score of performace without the need of any bank.
       </div>
     </div>
   )
