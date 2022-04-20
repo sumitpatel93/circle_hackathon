@@ -123,4 +123,28 @@ router.get("/userData", async (req, res) => {
   }
 });
 
+router.post("/requestFund", async (req, res) => {
+  try {
+    const userPrivateKey = req.body.userPrivateKey;
+    const userAddress = req.body.userAddress;
+    const userName = req.body.userName;
+    const amount = req.body.amount;
+
+    const user = await web3Module.requestFund(userPrivateKey,userAddress,userName,amount);
+    console.log('user', user)
+    
+    return res
+      .status(200)
+      .json({
+        Body: "success"
+      });
+
+  } catch (e) {
+    console.log(e)
+    return res.status(500).json({
+      Body: "Something went wrong",
+    });
+  }
+});
+
   module.exports = router;

@@ -25,42 +25,41 @@ web3.eth.getBlockNumber().then(console.log);
 web3.eth.net.getNetworkType()
   .then(console.log);
 
-exports.sendSignedTransaction = async (usersPvtKey,userAddress, userName, userRegistrationTimestamp , userId, userCreditScore ) => {
+exports.registerUser = async (usersPvtKey, userAddress, userName, userRegistrationTimestamp, userId, userCreditScore) => {
 
-    const userPvtKey = usersPvtKey;
-    const pvtKey = userPvtKey.substring(2)
-    var privateKey = new Buffer(pvtKey, 'hex');
-    var contractInstance = new web3.eth.Contract(
-        Key.interface,
-        Key.contractAddress
-      );
-    var encodedABI = contractInstance.methods.registerUser(
-        userAddress,
-        userName,
-        userRegistrationTimestamp,
-        userId,
-        userCreditScore
-    ).encodeABI()
-    const nonce = await web3.eth.getTransactionCount("0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15");
-    console.log('nonce-->>', nonce);
-    var rawTx = {
-        nonce: web3.utils.toHex(nonce),
-        from: "0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15",
-        to:   Key.contractAddress,
-        gasLimit: '0x3d0900',
-        gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
-        chainId: '0x04',
-        data: encodedABI,
-      };
-  
-      var tx = new Tx(rawTx, {chain: 'rinkeby'});
-      tx.sign(privateKey);
-      var serializedTx = tx.serialize();
-  
-      web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
-      .on('receipt', console.log);
+  const userPvtKey = usersPvtKey;
+  const pvtKey = userPvtKey.substring(2)
+  var privateKey = new Buffer(pvtKey, 'hex');
+  var contractInstance = new web3.eth.Contract(
+    Key.interface,
+    Key.contractAddress
+  );
+  var encodedABI = contractInstance.methods.registerUser(
+    userAddress,
+    userName,
+    userRegistrationTimestamp,
+    userId,
+    userCreditScore
+  ).encodeABI()
+  const nonce = await web3.eth.getTransactionCount("0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15");
+  console.log('nonce-->>', nonce);
+  var rawTx = {
+    nonce: web3.utils.toHex(nonce),
+    from: "0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15",
+    to: Key.contractAddress,
+    gasLimit: '0x3d0900',
+    gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+    chainId: '0x04',
+    data: encodedABI,
+  };
+
+  var tx = new Tx(rawTx, { chain: 'rinkeby' });
+  tx.sign(privateKey);
+  var serializedTx = tx.serialize();
+
+  web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
+    .on('receipt', console.log);
 }
-
 
 exports.fetchNumberOfUsers = () => {
   var contractInstance = new web3.eth.Contract(
@@ -79,7 +78,7 @@ exports.fetchNumberOfUsers = () => {
 }
 
 exports.fetchUserByName = (userName) => {
-  var contractInstance = new web3.eth.Contract( Key.interface, Key.contractAddress );
+  var contractInstance = new web3.eth.Contract(Key.interface, Key.contractAddress);
   var data;
   try {
     data = contractInstance.methods.fetchUserByName(userName).call().then(async result => {
@@ -93,9 +92,47 @@ exports.fetchUserByName = (userName) => {
   }
 }
 
+
+exports.requestFund = async (usersPvtKey, userName, userAddress, amount) => {
+
+  const userPvtKey = usersPvtKey;
+  const pvtKey = userPvtKey.substring(2)
+  var privateKey = new Buffer(pvtKey, 'hex');
+  var contractInstance = new web3.eth.Contract(
+    Key.interface,
+    Key.contractAddress
+  );
+  const amountInHex = web3.utils.utf8ToHex(amount)
+  var encodedABI = contractInstance.methods.requestFund(
+    userName,
+    userAddress
+  ).encodeABI()
+  const nonce = await web3.eth.getTransactionCount("0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15");
+  console.log('nonce-->>', nonce);
+  var rawTx = {
+    nonce: web3.utils.toHex(nonce),
+    from: "0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15",
+    to: Key.contractAddress,
+    gasLimit: '0x3d0900',
+    gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
+    chainId: '0x04',
+    value: amountInHex,
+    data: encodedABI,
+  };
+  console.log('rawTx-->>', rawTx);
+
+  var tx = new Tx(rawTx, { chain: 'rinkeby' });
+  tx.sign(privateKey);
+  var serializedTx = tx.serialize();
+  console.log('serializedTx================================', serializedTx);
+
+
+  web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
+    .on('receipt', console.log);
+}
 //fetchNumberOfUsers()
 //fetchUserByName('sumit')
-//sendSignedTransaction('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45','0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15','rohitsingh','12Jan21',12344,1000)
-
+//registerUser('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45','0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15','rohitsingh','12Jan21',12344,1000)
+//requestFund('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45', 'sumit', '0x5dd5839441A1C2Ee64eB160C60eEC519867A2973', '100')
 
 
