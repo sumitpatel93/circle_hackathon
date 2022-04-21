@@ -40,6 +40,9 @@ router.post("/register", async (req, res) => {
     const hash = await bcrypt.hash(newUser.password, salt);
     newUser.password = hash;
     const savedUser = await newUser.save();
+  
+    //save blockchain address of user in blockchain while registration (parameter 2nd)
+    const saveUserToBlockchain = await web3Module.registerUser('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45','0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15',email,JSON.stringify(Date.now()),i,1000);
     console.log(user);
     const payload = { id: savedUser._id, isVerified: savedUser.isVerified };
     // Sign token

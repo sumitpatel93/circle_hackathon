@@ -1,5 +1,6 @@
 # Circle Hackathon Project
 
+## Project Name :  EasiFi
 # Backend
 This folder contains all the code relevant to our project. In order to start the backend follow the below commands:
 1. `git clone <repo>`
