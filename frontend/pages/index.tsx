@@ -41,5 +41,5 @@ const Home: NextPage = () => {
     </div>
   )
 }
-
+0
 export default Home
