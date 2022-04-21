@@ -8,6 +8,14 @@ const keys = require("../config/keys");
 const web3Module = require("../utils/web3");
 var Web3 = require("web3");
 
+const axios = require('axios');
+
+const CIRLCE_API_KEY=process.env.CIRLCE_API_KEY
+const BASE_URL = process.env.BASE_URL
+const uuid = require('uuid');
+const { request } = require("http");
+const { response } = require("express");
+
 var web3;
 if (typeof web3 !== "undefined") {
   web3 = new Web3(web3.currentProvider);
@@ -15,6 +23,7 @@ if (typeof web3 !== "undefined") {
   web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/0f333401437149e28c3696b36eb02f93"));
 
 }
+
 
 router.post("/register", async (req, res) => {
   try {
@@ -34,7 +43,58 @@ router.post("/register", async (req, res) => {
       username: `MEM${i}`,
       companyName: companyName,
       confirmPassword: confirmPassword,
+      customerId : uuid.v4()
     });
+
+    var createWallet = {
+      method: 'post',
+      url: BASE_URL+'wallets',
+      headers: { 
+        'Authorization': 'Bearer ' + CIRLCE_API_KEY, 
+        'Accept': 'application/json'
+      },
+      data:{
+        idempotencyKey : newUser.customerId
+      }
+    };
+
+    walletId =  ""
+
+    await axios(createWallet)
+          .then(function (response) {
+            walletId = response.data.data.walletId
+        })
+          .catch(function (error) {
+          console.log(error);
+          
+      });
+    
+    var generateBlockChainAddress = {
+      method: 'post',
+      url: BASE_URL+'wallets/'+walletId+'/addresses',
+      headers: { 
+        'Authorization': 'Bearer ' + CIRLCE_API_KEY, 
+        'Accept': 'application/json'
+      },
+      data: {
+        idempotencyKey : newUser.customerId,
+        currency : "ETH",
+        chain : "ETH"
+      }
+    };
+  
+    blockchainAddress = ""
+
+    postCreateBCAddress = await axios(generateBlockChainAddress)
+            .then(function (response) {
+            blockchainAddress = response.data.data.address
+          })
+            .catch(function (error) {
+            console.log(error);
+        });
+    
+    newUser.blockChainAddress = blockchainAddress
+    newUser.walletId = walletId
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(newUser.password, salt);
@@ -44,6 +104,7 @@ router.post("/register", async (req, res) => {
     //save blockchain address of user in blockchain while registration (parameter 2nd)
     const saveUserToBlockchain = await web3Module.registerUser('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45','0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15',email,JSON.stringify(Date.now()),i,1000);
     console.log(user);
+    
     const payload = { id: savedUser._id, isVerified: savedUser.isVerified };
     // Sign token
     jwt.sign(
@@ -58,6 +119,9 @@ router.post("/register", async (req, res) => {
         return res.status(200).json({ Body: "Bearer " + token });
       }
     );
+
+    
+
   } catch (e) {
     console.log(e);
     return res.status(500).json({
