@@ -22,6 +22,14 @@ module.exports = {
       confirmations: 2,
       timeoutBlocks: 200,
       skipDryRun: true
+    },
+    rinkeby: {
+      provider: function () {
+        return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/v3/0f333401437149e28c3696b36eb02f93");
+      },
+      network_id: 4,
+      gas: 4500000,
+      gasPrice: 10000000000,
     }
   },
 

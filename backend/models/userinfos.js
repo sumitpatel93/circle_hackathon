@@ -25,6 +25,8 @@ const UserInfoSchema = new Schema(
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     customerId: defaultString,
+    walletId: defaultString,
+    blockChainAddress :defaultString
   },
   { timestamps: true }
 );
