@@ -144,7 +144,8 @@ router.post("/login", async (req, res) => {
       if (isMatch) {
         const token = user.token;
         return res.status(200).json({
-          Body: "Bearer " + token,
+          body: "Bearer " + token,
+          email : user.email
         });
       } else {
         return res.status(400).json({
