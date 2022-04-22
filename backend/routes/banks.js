@@ -6,39 +6,42 @@ const { uuid } = require('uuidv4');
 const CIRLCE_API_KEY=process.env.CIRLCE_API_KEY
 const BASE_URL = process.env.BASE_URL
 
-var createBankData = JSON.stringify({
-    "idempotencyKey": uuid(),
-    "beneficiaryName": "John Smith",
-    "accountNumber": "123456789",
-    "routingNumber": "021000021",
-    "billingDetails": {
-      "name": "John Smith",
-      "city": "Boston",
-      "country": "US",
-      "line1": "1 Main Street",
-      "district": "MA",
-      "postalCode": "02201"
-    },
-    "bankAddress": {
-      "country": "US"
-    }
-  });
 
-  var createBankConfig = {
-    method: 'post',
-    url: BASE_URL + 'banks/wires',
-    headers: { 
-      'Accept': 'application/json', 
-      'Content-Type': 'application/json', 
-      'Authorization': 'Bearer ' + CIRLCE_API_KEY
-    },
-    data : createBankData
-  };
+/*
+*** create bank id 
+*/
 
   router.post('/', (req, res) => {
-    axios(createBankConfig)
+
+    var userName = req.body.userName;
+    var billingDetails = req.body.billingDetails;
+
+    var data = JSON.stringify({
+      "idempotencyKey": uuid(),
+      "beneficiaryName": userName,
+      "accountNumber": req.body.accountNumber,
+      "routingNumber": req.body.routingNumber,
+      "billingDetails": billingDetails,
+      "bankAddress": {
+        "country": req.body.country
+      }
+    }); 
+
+    var config = {
+      method: 'post',
+      url: BASE_URL + 'banks/wires',
+      headers: { 
+        'Accept': 'application/json', 
+        'Content-Type': 'application/json', 
+        'Authorization': 'Bearer ' + CIRLCE_API_KEY
+      },
+      data : data
+    };
+
+    axios(config)
         .then(function (response) {
         console.log(JSON.stringify(response.data));
+        // id generated needs to be saved with the user 
         res.send(response.data) 
      })
         .catch(function (error) {
