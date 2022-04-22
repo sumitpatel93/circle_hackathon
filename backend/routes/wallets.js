@@ -6,7 +6,13 @@ const { uuid } = require('uuidv4');
 const CIRLCE_API_KEY=process.env.CIRLCE_API_KEY
 const BASE_URL = process.env.BASE_URL
 
-var getConfig = {
+/*
+*** get all the wallets for the user
+*/
+
+router.get('/', (req, res) => {
+
+  var getConfig = {
     method: 'get',
     url: BASE_URL+'wallets',
     headers: { 
@@ -15,7 +21,6 @@ var getConfig = {
     }
   };
 
-router.get('/', (req, res) => {
     axios(getConfig)
         .then(function (response) {
         console.log(JSON.stringify(response.data));
@@ -27,21 +32,27 @@ router.get('/', (req, res) => {
     });
 });
   
-var postConfig = {
-    method: 'post',
-    url: BASE_URL + 'wallets',
-    headers: { 
-      'Accept': 'application/json', 
-      'Content-Type': 'application/json', 
-      'Authorization': 'Bearer ' + CIRLCE_API_KEY
-    },
-    data : JSON.stringify({
-        "idempotencyKey": uuid()
-      })
-  };
-
+  /* 
+  *** the post wallets api creates wallets 
+  ***
+  */
 
   router.post('/', (req, res) => {
+
+    var postConfig = {
+      method: 'post',
+      url: BASE_URL + 'wallets',
+      headers: { 
+        'Accept': 'application/json', 
+        'Content-Type': 'application/json', 
+        'Authorization': 'Bearer ' + CIRLCE_API_KEY
+      },
+      data : JSON.stringify({
+          "idempotencyKey": uuid()
+        })
+    };
+  
+
     axios(postConfig)
         .then(function (response) {
         console.log(JSON.stringify(response.data));
