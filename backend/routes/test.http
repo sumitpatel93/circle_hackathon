@@ -1,4 +1,4 @@
- GET http://localhost:3000/payouts
+ GET http://localhost:3000/wallets
  Content-Type: application/json
 
  {

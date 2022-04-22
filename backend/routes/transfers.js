@@ -6,7 +6,7 @@ const { uuid } = require('uuidv4');
 const CIRLCE_API_KEY=process.env.CIRLCE_API_KEY
 const BASE_URL = process.env.BASE_URL
 
-var createBankData = JSON.stringify({
+var data = JSON.stringify({
     "idempotencyKey": uuid(),
     "beneficiaryName": "John Smith",
     "accountNumber": "123456789",
@@ -24,7 +24,7 @@ var createBankData = JSON.stringify({
     }
   });
 
-  var createBankConfig = {
+var createBankConfig = {
     method: 'post',
     url: BASE_URL + 'banks/wires',
     headers: { 
@@ -32,7 +32,7 @@ var createBankData = JSON.stringify({
       'Content-Type': 'application/json', 
       'Authorization': 'Bearer ' + CIRLCE_API_KEY
     },
-    data : createBankData
+    data : data
   };
 
   router.post('/', (req, res) => {
