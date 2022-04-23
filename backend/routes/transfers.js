@@ -8,21 +8,6 @@ const BASE_URL = process.env.BASE_URL
 
 /* transfers currency from source wallet to destination object
 *** destination object can be of 2 types : wallets and blockchain address 
-example of body  
-{
-     "source": {
-          "type": "wallet",
-          "id": "walletid"
-     },
-     "destination": {
-          "type": "wallet",
-          "id": "walletid"
-     },
-     "amount": {
-          "amount": "3.14",
-          "currency": "ETH"
-     }
-    }
 ***
 */
 
