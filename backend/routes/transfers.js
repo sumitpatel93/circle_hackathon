@@ -6,19 +6,38 @@ const { uuid } = require('uuidv4');
 const CIRLCE_API_KEY=process.env.CIRLCE_API_KEY
 const BASE_URL = process.env.BASE_URL
 
- 
+/* transfers currency from source wallet to destination object
+*** destination object can be of 2 types : wallets and blockchain address 
+example of body  
+{
+     "source": {
+          "type": "wallet",
+          "id": "walletid"
+     },
+     "destination": {
+          "type": "wallet",
+          "id": "walletid"
+     },
+     "amount": {
+          "amount": "3.14",
+          "currency": "ETH"
+     }
+    }
+***
+*/
+
 router.post('/', (req, res) => {
  
   var data = JSON.stringify({
     "source": req.body.source,
-    "destination": req.bosy.destination,
-    "amount": req.bosy.amount,
+    "destination": req.body.destination,
+    "amount": req.body.amount,
     "idempotencyKey": uuid()
   });
 
   var config = {
     method: 'post',
-    url: BASE_URL + 'banks/wires',
+    url: BASE_URL + 'transfers',
     headers: { 
       'Accept': 'application/json', 
       'Content-Type': 'application/json', 
