@@ -26,7 +26,7 @@ example of body
 ***
 */
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
  
   var data = JSON.stringify({
     "source": req.body.source,
@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
     data : data
   };
 
-  axios(config)
+  await axios(config)
       .then(function (response) {
       console.log(JSON.stringify(response.data));
       res.send(response.data) 
