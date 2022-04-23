@@ -16,6 +16,15 @@ router.get('/', (req, res, next) => {
 
 /*
 *** send payout to bank bank account
+  oody : {
+    'payer' : 'Alex',
+    'payee' : 'Bob',
+    'amount' : {
+      'amount' : '100',
+      'currency' : 'USD'
+    }
+  }
+***
 */
 router.post('/', async (req, res) => {
 
