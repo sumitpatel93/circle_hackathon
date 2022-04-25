@@ -25,7 +25,7 @@ web3.eth.getBlockNumber().then(console.log);
 web3.eth.net.getNetworkType()
   .then(console.log);
 
-exports.registerUser = async (usersPvtKey, userAddress, userName, userRegistrationTimestamp, userId, userCreditScore) => {
+exports.registerUser = async (usersPvtKey, userAddress, userName, userRegistrationTimestamp, userId) => {
 
   const userPvtKey = usersPvtKey;
   const pvtKey = userPvtKey.substring(2)
@@ -38,8 +38,7 @@ exports.registerUser = async (usersPvtKey, userAddress, userName, userRegistrati
     userAddress,
     userName,
     userRegistrationTimestamp,
-    userId,
-    userCreditScore
+    userId
   ).encodeABI()
   const nonce = await web3.eth.getTransactionCount("0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15");
   console.log('nonce-->>', nonce);
