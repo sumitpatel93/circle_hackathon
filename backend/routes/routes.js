@@ -43,7 +43,7 @@ router.post("/register", async (req, res) => {
       username: `MEM${i}`,
       companyName: companyName,
       confirmPassword: confirmPassword,
-      customerId : uuid.v4()
+      idempotencyKey : uuid.v4()
     });
 
     var createWallet = {
@@ -54,7 +54,7 @@ router.post("/register", async (req, res) => {
         'Accept': 'application/json'
       },
       data:{
-        idempotencyKey : newUser.customerId
+        idempotencyKey : newUser.idempotencyKey
       }
     };
 
@@ -77,7 +77,7 @@ router.post("/register", async (req, res) => {
         'Accept': 'application/json'
       },
       data: {
-        idempotencyKey : newUser.customerId,
+        idempotencyKey : newUser.idempotencyKey,
         currency : "ETH",
         chain : "ETH"
       }
@@ -145,7 +145,8 @@ router.post("/login", async (req, res) => {
         const token = user.token;
         return res.status(200).json({
           body: "Bearer " + token,
-          email : user.email
+          email : user.email,
+          userName: user.username
         });
       } else {
         return res.status(400).json({
@@ -169,13 +170,25 @@ router.post("/login", async (req, res) => {
 router.get("/userData", async (req, res) => {
   try {
     const userName = req.body.userName;
+    const userFromDB = await UserInfo.findOne({ email : userName });
+
+    walletId = "";
+    blockChainAddress = "";
+
+    if (userFromDB)
+    {
+      walletId = userFromDB.walletId;
+      blockChainAddress = userFromDB.blockChainAddress
+    }
     const user = await web3Module.fetchUserByName(userName);
     const userDetails = {
       userAddress : user[0],
       userName : user[1],
       userRegistrationTimestamp : web3.utils.hexToNumberString(user[2]._hex),
       userId : web3.utils.hexToNumberString(user[3]._hex),
-      userCreditScore : web3.utils.hexToNumberString(user[4])
+      userCreditScore : web3.utils.hexToNumberString(user[4]),
+      walletId : walletId,
+      blockChainAddress : blockChainAddress
     }
     return res
       .status(200)

@@ -24,7 +24,7 @@ const UserInfoSchema = new Schema(
     uuid: String,
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    customerId: defaultString,
+    idempotencyKey: defaultString,
     walletId: defaultString,
     blockChainAddress :defaultString
   },
