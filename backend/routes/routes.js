@@ -220,10 +220,7 @@ router.post("/deposit", async (req, res) => {
   try {
     const userName = req.body.userName;
     const amount = req.body.amount;
-   
-    const user = await web3Module.requestFund(userPrivateKey,userAddress,userName,amount);
-    console.log('user', user)
-    
+    const user = await web3Module.requestFund(userPrivateKey,userName,amount);
     return res
       .status(200)
       .json({
