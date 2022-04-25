@@ -8,10 +8,44 @@ const BASE_URL = process.env.BASE_URL
 
 /* transfers currency from source wallet to destination object
 *** destination object can be of 2 types : wallets and blockchain address 
-***
+*** /wallet endpoint is to transfer to wallet
 */
 
-router.post('/', async (req, res) => {
+router.post('/wallet', async (req, res) => {
+ 
+  var data = JSON.stringify({
+    "source": req.body.source,
+    "destination": req.body.destination,
+    "amount": req.body.amount,
+    "idempotencyKey": uuid()
+  });
+
+  var config = {
+    method: 'post',
+    url: BASE_URL + 'transfers',
+    headers: { 
+      'Accept': 'application/json', 
+      'Content-Type': 'application/json', 
+      'Authorization': 'Bearer ' + CIRLCE_API_KEY
+    },
+    data : data
+  };
+
+  await axios(config)
+      .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      res.send(response.data) 
+   })
+      .catch(function (error) {
+      console.log(error);
+      res.send({ error })
+  });
+});
+/* 
+*** /blockchain is to transfer to blockchain address
+*/
+
+router.post('/blockchain', async (req, res) => {
  
   var data = JSON.stringify({
     "source": req.body.source,
