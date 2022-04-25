@@ -12,12 +12,30 @@ const BASE_URL = process.env.BASE_URL
 */
 
 router.post('/wallet', async (req, res) => {
+
+
+  var sourceUserName = req.body.source.userName;
+  var source = await web3Module.fetchUserByName(sourceUserName);
+  var sourceWalletId = source.data.walletId;
+
+  var destinationUserName = req.body.destination.userName;
+  var destination = await web3Module.fetchUserByName(destinationUserName);
+  var destonationWalletId = destination.data.walletId;
+
+  var amount = req.body.amount;
  
   var data = JSON.stringify({
-    "source": req.body.source,
-    "destination": req.body.destination,
-    "amount": req.body.amount,
+    "source": {
+      "type": "wallet",
+      "id": sourceWalletId
+    },
+    "destination": {
+      "type": "wallet",
+      "id": destonationWalletId
+    },
+    "amount": amount,
     "idempotencyKey": uuid()
+
   });
 
   var config = {
@@ -46,11 +64,28 @@ router.post('/wallet', async (req, res) => {
 */
 
 router.post('/blockchain', async (req, res) => {
+
+  var sourceUserName = req.body.source.userName;
+  var source = await web3Module.fetchUserByName(sourceUserName);
+  var sourceWalletId = source.data.walletId;
+
+  var destinationUserName = req.body.destination.userName;
+  var destination = await web3Module.fetchUserByName(destinationUserName);
+  var destonationBlockChainAddress = destination.data.blockChainAddress;
+
+  var amount = req.body.amount;
  
   var data = JSON.stringify({
-    "source": req.body.source,
-    "destination": req.body.destination,
-    "amount": req.body.amount,
+    "source": {
+      "type": "wallet",
+      "id": sourceWalletId
+    },
+    "destination": {
+      "type": "blockchain",
+      "address": destonationBlockChainAddress,
+      "chain": "ETH"
+    },
+    "amount": amount,
     "idempotencyKey": uuid()
   });
 
