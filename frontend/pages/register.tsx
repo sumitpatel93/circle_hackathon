@@ -8,11 +8,11 @@ const Register = () =>{
   const [password, setPassword] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [verifiedUser, setVerifiedUser] = useState(false);
 
   const handleSubmit = async(e: any) =>{
     e.preventDefault();
-    console.log("clicked")
-      const res = await fetch("http://localhost:3000/circleHackathon/register", {
+      const res = await fetch("http://localhost:3010/circleHackathon/register", {
         method: "POST",
         body: JSON.stringify({
           email: email,
@@ -26,6 +26,7 @@ const Register = () =>{
       });
       const resJson = await res.json();
       console.log(resJson);
+      if(res.status==400){setVerifiedUser(false);}
   }
 
 
@@ -38,6 +39,16 @@ const Register = () =>{
           </Link>
         </div>
       </div>
+      {verifiedUser?(
+        <div className="flex justify-center items-center flex-col">
+          You are logged in!
+          <button className="bg-white text-black p-3 m-5">
+            <Link href="/dashboard">
+              Move to Dashboard -&gt;
+            </Link>
+          </button>
+        </div>
+      ) : ( 
       <div className="flex flex-col m-2">
         <div className="font-bold text-2xl m-14">
           SME Register
@@ -72,6 +83,7 @@ const Register = () =>{
           </div>
         </div>
       </div>
+      )}
     </div>
     )
 }

@@ -6,10 +6,11 @@ const Login = () =>{
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [verifiedUser, setVerifiedUser] = useState(false);
 
   const handleSubmit =async(e: any) =>{
     e.preventDefault();
-    const res = await fetch("http://localhost:3000/circleHackathon/login", {
+    const res = await fetch("http://localhost:3010/circleHackathon/login", {
         method: "POST",
         body: JSON.stringify({
           email: email,
@@ -21,10 +22,12 @@ const Login = () =>{
       });
       const resJson = await res.json();
       console.log(resJson);
+      if(res.status==400){setVerifiedUser(true)}
   }
 
     return(
     <div className="flex flex-col text-white font-thin min-h-screen bg-black">
+      
       <div className="sticky top-0 z-10 flex justify-between p-10">
         <div className="font-bold text-3xl">
           <Link href="/">
@@ -32,6 +35,16 @@ const Login = () =>{
           </Link>
         </div>
       </div>
+      {verifiedUser?(
+        <div className="flex justify-center items-center flex-col">
+          You are logged in!
+          <button className="bg-white text-black p-3 m-5">
+            <Link href="/dashboard">
+              Move to Dashboard -&gt;
+            </Link>
+          </button>
+        </div>
+      ) : ( 
       <div className="flex flex-col m-2">
         <div className="font-bold text-2xl m-14">
           SME Login
@@ -59,6 +72,7 @@ const Login = () =>{
           </div>
         </div>
       </div>
+      )}
     </div>
     )
 }
