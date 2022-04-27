@@ -35,10 +35,10 @@ app.use('/request-type', (req, res, next) => {
 });
 
 app.use('/circleHackathon', routes);
-app.use('/payouts',payoutsRoutes);
-app.use('/wallets',walletRoutes);
-app.use('/banks',bankRoutes);
-app.use('/transfers',transferRoutes);
+app.use('/circleHackathon/payouts',payoutsRoutes);
+app.use('/circleHackathon/wallets',walletRoutes);
+app.use('/circleHackathon/banks',bankRoutes);
+app.use('/circleHackathon/transfers',transferRoutes);
 
 
 
