@@ -9,24 +9,18 @@ const UserInfoSchema = new Schema(
     password: stringRequired,
     confirmPassword: stringRequired,
     token: { type: String },
-    photos: {
-      type: [String],
-      validate: [arrayLimit, "{PATH} exceeds the limit of 5"],
-    },
     username: { type: String, unique: true, required: true },
     companyName: defaultString,
     credentialDocument: defaultString,
     country: defaultString,
-    commodityName: defaultString,
-    commodityType: defaultString,
-    supplierType: defaultString,
     contactNumber: defaultString,
     uuid: String,
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     customerId: defaultString,
     walletId: defaultString,
-    blockChainAddress :defaultString
+    blockchainAddress :{ type: String},
+    pvtKey : { type: String}
   },
   { timestamps: true }
 );

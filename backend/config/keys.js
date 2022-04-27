@@ -1,6 +1,6 @@
 module.exports = {
     secretOrKey: "secret",
-    contractAddress: "0x90823Df2D56E6f08eb173109f403243528c0b2f8",
+    contractAddress: "0x23489f9e463a5111c8fE24571DD88F663C5B59A9",
     interface: [
       {
         "anonymous": false,
@@ -282,13 +282,17 @@ module.exports = {
             "internalType": "string",
             "name": "_userName",
             "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_amount",
+            "type": "uint256"
           }
         ],
         "name": "deposit",
         "outputs": [],
-        "stateMutability": "payable",
-        "type": "function",
-        "payable": true
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
         "inputs": [
@@ -301,6 +305,11 @@ module.exports = {
             "internalType": "address payable",
             "name": "_to",
             "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_amount",
+            "type": "uint256"
           }
         ],
         "name": "requestFund",
@@ -311,9 +320,8 @@ module.exports = {
             "type": "bool"
           }
         ],
-        "stateMutability": "payable",
-        "type": "function",
-        "payable": true
+        "stateMutability": "nonpayable",
+        "type": "function"
       }
     ]
   };

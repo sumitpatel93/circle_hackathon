@@ -81,7 +81,6 @@ exports.fetchUserByName = (userName) => {
   var data;
   try {
     data = contractInstance.methods.fetchUserByName(userName).call().then(async result => {
-      console.log(result)
       return result
     })
     return data
@@ -92,8 +91,8 @@ exports.fetchUserByName = (userName) => {
 }
 
 
-exports.requestFund = async (usersPvtKey, userName, userAddress, amount) => {
-
+exports.requestFund = async (usersPvtKey,userAddress, userName, amount) => {
+  
   const userPvtKey = usersPvtKey;
   const pvtKey = userPvtKey.substring(2)
   var privateKey = new Buffer(pvtKey, 'hex');
@@ -101,36 +100,33 @@ exports.requestFund = async (usersPvtKey, userName, userAddress, amount) => {
     Key.interface,
     Key.contractAddress
   );
-  const amountInHex = web3.utils.utf8ToHex(amount)
   var encodedABI = contractInstance.methods.requestFund(
     userName,
-    userAddress
+    userAddress,
+    amount
   ).encodeABI()
-  const nonce = await web3.eth.getTransactionCount("0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15");
-  console.log('nonce-->>', nonce);
+  
+  const nonce = await web3.eth.getTransactionCount(userAddress);
   var rawTx = {
     nonce: web3.utils.toHex(nonce),
-    from: "0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15",
+    from: userAddress,
     to: Key.contractAddress,
     gasLimit: '0x3d0900',
     gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
     chainId: '0x04',
-    value: amountInHex,
     data: encodedABI,
   };
-  console.log('rawTx-->>', rawTx);
 
   var tx = new Tx(rawTx, { chain: 'rinkeby' });
   tx.sign(privateKey);
   var serializedTx = tx.serialize();
-  console.log('serializedTx================================', serializedTx);
 
 
   web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
     .on('receipt', console.log);
 }
 
-exports.deposit = async (usersPvtKey, userName, amount) => {
+exports.deposit = async (usersPvtKey,userAddress, userName, amount) => {
 
   const userPvtKey = usersPvtKey;
   const pvtKey = userPvtKey.substring(2)
@@ -141,13 +137,14 @@ exports.deposit = async (usersPvtKey, userName, amount) => {
   );
   const amountInHex = web3.utils.utf8ToHex(amount)
   var encodedABI = contractInstance.methods.deposit(
-    userName
+    userName,
+    amount
   ).encodeABI()
-  const nonce = await web3.eth.getTransactionCount("0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15");
+  const nonce = await web3.eth.getTransactionCount(userAddress);
 
   var rawTx = {
     nonce: web3.utils.toHex(nonce),
-    from: "0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15",
+    from: userAddress,
     to: Key.contractAddress,
     gasLimit: '0x3d0900',
     gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')),
@@ -166,3 +163,4 @@ exports.deposit = async (usersPvtKey, userName, amount) => {
 
 
 
+//requestFund('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45','0x655e5cB1F1EABE2767EFEd4E90714D2A92608d15','res123@gmail.com',100)

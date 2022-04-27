@@ -60,10 +60,10 @@ function fetchUserByName(string memory _userName)  public view returns (userDeta
     return userDetailsMapping[contract_addr];
 }
 
-function deposit(string memory _userName ) payable public {
+function deposit(string memory _userName , uint256 _amount ) public {
     address contract_addr = getAddressFromName[_userName];
     // User can return the whole amount at once
-    require (msg.value == userDetailsMapping[contract_addr].userLoans.issuedAmount,'Please pay the full amount');
+    require (_amount == userDetailsMapping[contract_addr].userLoans.issuedAmount,'Please pay the full amount');
     uint256 timeDiff =  block.timestamp - userDetailsMapping[contract_addr].userLoans.issuedDate;
 
     if ( timeDiff > 50 ){
@@ -74,17 +74,15 @@ function deposit(string memory _userName ) payable public {
     userDetailsMapping[contract_addr].userLoans.LoanStatus = loanStatus.paid;
 }
 
-function requestFund(string memory _userName , address payable _to ) public payable returns (bool) {
+function requestFund(string memory _userName , address payable _to , uint256 _amount) public returns (bool) {
     uint256 loanRequestTimestamp = block.timestamp;
     address contract_addr = getAddressFromName[_userName];
     // funds requested address should be diff from the requestor address
-    require ( _to != msg.sender);
     require ( userDetailsMapping[contract_addr].userCreditScore > 700,'User shall have credit score greater than 700');
     //require ( userDetailsMapping[contract_addr].userLoans.LoanStatus == loanStatus.paid, 'Its required to pay back your previous loans');
-    require ( msg.value < 10 ether, 'Initial Loan cant be greater than 10 ether');
-    userDetailsMapping[contract_addr].userLoans.issuedAmount = msg.value;
+    require ( _amount < 1000, 'Initial Loan cant be greater than 1000 USDC');
+    userDetailsMapping[contract_addr].userLoans.issuedAmount = _amount;
     userDetailsMapping[contract_addr].userLoans.issuedDate = loanRequestTimestamp;
-    _to.transfer(msg.value);
     return true;
  }
 }
