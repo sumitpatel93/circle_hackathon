@@ -7,6 +7,8 @@ const Login = () =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [verifiedUser, setVerifiedUser] = useState(false);
+  //const user="";
+  const [user,setUser] = useState("");
 
   const handleSubmit =async(e: any) =>{
     e.preventDefault();
@@ -21,8 +23,8 @@ const Login = () =>{
         }
       });
       const resJson = await res.json();
-      console.log(resJson);
-      if(res.status==400){setVerifiedUser(true)}
+      setUser(resJson.email);
+      if(res.status==200){setVerifiedUser(true)}
   }
 
     return(
@@ -37,9 +39,9 @@ const Login = () =>{
       </div>
       {verifiedUser?(
         <div className="flex justify-center items-center flex-col">
-          You are logged in!
+          You are logged in {user}
           <button className="bg-white text-black p-3 m-5">
-            <Link href="/dashboard">
+            <Link href={`/dashboard/${user}`}>
               Move to Dashboard -&gt;
             </Link>
           </button>

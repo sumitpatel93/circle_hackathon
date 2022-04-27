@@ -26,7 +26,7 @@ const Register = () =>{
       });
       const resJson = await res.json();
       console.log(resJson);
-      if(res.status==400){setVerifiedUser(false);}
+      if(res.status==200){setVerifiedUser(true);}
   }
 
 
@@ -41,10 +41,10 @@ const Register = () =>{
       </div>
       {verifiedUser?(
         <div className="flex justify-center items-center flex-col">
-          You are logged in!
+          Welcome to EasiFi! Please login with your email to continue
           <button className="bg-white text-black p-3 m-5">
-            <Link href="/dashboard">
-              Move to Dashboard -&gt;
+            <Link href="/login">
+              Login -&gt;
             </Link>
           </button>
         </div>
