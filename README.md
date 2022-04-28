@@ -30,3 +30,5 @@ npm run dev
 This contains all the code relevant to our blockchain infrastructure like smart contracts & migrations.
 
 Tools used : Truffle , Ganache, Infura 
+
+** Make sure to have some funds(1eth approx) in your eth testnet address, which is generated at the time of registration to interact with smart contract.

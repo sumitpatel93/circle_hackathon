@@ -53,11 +53,11 @@ router.post("/register", async (req, res) => {
     const hash = await bcrypt.hash(newUser.password, salt);
     newUser.password = hash;
     const savedUser = await newUser.save();
-  
+    console.log('User public Address', blockchainAddress)
+
     //saving of user details in blockchain with master user acc, whose pvt key is used
     const saveUserToBlockchain = await web3Module.registerUser('0xb3021fb06b6396f628dda47d81701150e7d241476ebfa40fa6e919e61e294f45', account.address ,email,JSON.stringify(Date.now()),i,1000);
-    console.log(user);
-    
+        
     const payload = { id: savedUser._id, isVerified: savedUser.isVerified };
     // Sign token
     jwt.sign(
@@ -164,15 +164,8 @@ router.post("/requestFund", async (req, res) => {
     const userAddress = req.body.userAddress;
     const userName = req.body.userName;
     const amount = req.body.amount;
-
-    const user = await web3Module.requestFund(userPrivateKey,userAddress,userName,amount);
-    
-    return res
-      .status(200)
-      .json({
-        Body: "success"
-      });
-
+    const user = web3Module.requestFund(userPrivateKey,userAddress,userName,amount)
+    res.json({body: 'success'});
   } catch (e) {
     console.log(e)
     return res.status(500).json({
