@@ -13,8 +13,6 @@ const Dashboard = () => {
     const [amount,setAmount] = useState("");
 
     const getUserDetails = async () =>{
-      console.log("heyyaaa")
-
       const res = await fetch("http://localhost:3010/circleHackathon/userData", {
           method: "POST",
           body: JSON.stringify({
@@ -25,9 +23,9 @@ const Dashboard = () => {
           }
         });
         const resJson = await res.json()
-        console.log(resJson);
         setCreditScore(resJson.Body.userCreditScore);
         setLoan(resJson.Body.loanAmount)
+        // setLoan(220);
         setAddress(resJson.Body.userAddress)
       }
 
@@ -51,8 +49,27 @@ const Dashboard = () => {
           }
         });
         const resJson = await res.json();
-        
+        console.log(resJson);
     }
+
+    const deposit =async() =>{
+      const res = await fetch("http://localhost:3010/circleHackathon/deposit", {
+          method: "POST",
+          body: JSON.stringify({
+            userPrivateKey : "0x177aa6b4e3af0e0923ac3f600e30b28fa20e172e1e4f081e9d2314c2cc7a1f10",
+            userAddress : address,
+            userName : username,
+            amount: loan,
+          }),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        });
+        const resJson = await res.json();
+        console.log(resJson);
+    }
+
+
     
 
     return(
@@ -68,16 +85,41 @@ const Dashboard = () => {
         <p className="text-2xl font-bold p-1">Hello, {username}</p>
 
         <div className="flex flex-col p-6">
-            <p className="p-1 text-xl">Your EasiFi Address: {address}</p>
-            <p className="p-1 text-xl">Your Credit Score: {creditScore}/1000</p>
-            <p className="p-1 text-xl">Loan taken till now: {loan}</p>
-            <p className="p-1 text-xl">Account creation date: </p>
-            <form>
-            <p className="p-1 text-xl">Enter loan amount to be taken: <input type="number" value={amount} className="text-black m-1 rounded p-0.5" onChange={(e) => setAmount(e.target.value)}/> </p>
-            <button onClick={handleSubmit} className="bg-white text-black w-min m-4 p-2 px-4">
+          <div className="flex p-3 text-xl">
+            <p className="font-semibold mr-5">Your EasiFi Address:</p>
+            <p> {address}</p>
+          </div>
+          <div className="flex p-3 text-xl">
+            <p className="font-semibold mr-5">Your Credit Score:</p>
+            <p> {creditScore}/1000</p>
+          </div>
+          <div className="flex p-3 text-xl">
+            <p className="font-semibold mr-5">Loans taken till now:</p>
+            <p className="mr-5">{loan}</p>
+            {loan>0 ? (
+              <button onClick={deposit} className="bg-white text-black text-base rounded w-min p-1 px-4">
+                Deposit
+              </button>
+            ) : (
+              <p></p>
+            )}
+          </div>
+
+          <div className="flex p-3 text-xl">
+            <p className="font-semibold mr-5">Account creation date: </p>
+            <p></p>
+          </div>
+            
+          <form>
+
+            <div className="flex p-3 text-xl">
+              <p className="font-semibold mr-5">Enter loan amount to be taken: </p>
+              <p><input type="number" value={amount} className="text-black m-1 rounded p-0.5" onChange={(e) => setAmount(e.target.value)}/> USDC</p>
+            </div>
+            <button onClick={handleSubmit} className="bg-white text-black rounded w-min m-4 p-2 px-4">
                 Submit
             </button>
-            </form>
+          </form>
             
             
         </div>

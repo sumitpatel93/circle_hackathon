@@ -40,9 +40,10 @@ const Register = () =>{
         </div>
       </div>
       {verifiedUser?(
-        <div className="flex justify-center items-center flex-col">
-          Welcome to EasiFi! Please login with your email to continue
-          <button className="bg-white text-black p-3 m-5">
+        <div className="flex p-40 justify-center items-center flex-col">
+          <p className="text-2xl">Welcome to EasiFi!</p> 
+          <p className="text-2xl">Please login with your email to continue</p>
+          <button className="bg-white text-black rounded p-3 m-5">
             <Link href="/login">
               Login -&gt;
             </Link>
@@ -54,8 +55,8 @@ const Register = () =>{
           SME Register
         </div>
         <div className="px-10 flex justify-around">
-          <div className="w-1/2">
-                <form className="flex flex-col p-2 border-2 rounded-2xl">
+          <div className="w-1/3">
+                <form className="flex flex-col p-2 ">
                 <span className="flex flex-col m-1 p-2">
                     Company Name:
                     <input type="text" className="rounded-md text-xs border-white text-black p-2" placeholder="SME Name" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
@@ -72,8 +73,8 @@ const Register = () =>{
                     Confirm password:
                     <input type="password" className="rounded-md  text-xs border-white text-black p-2" placeholder="Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />            
                 </span>
-                <span className="m-1 p-2">
-                    <button onClick={handleSubmit} type="submit" className=" bg-smoke shadow-md px-4 p-2">Register</button>
+                <span className="m-1 mt-8 self-center p-2">
+                    <button onClick={handleSubmit} type="submit" className=" bg-white text-black rounded shadow-md px-4 p-2">Register</button>
                 </span>
                 
                 </form>

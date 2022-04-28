@@ -20,7 +20,7 @@ const Home: NextPage = () => {
               Register!
             </Link>
           </div>
-          <div className="mx-1 font-normal p-1 px-8 rounded-md bg-smoke">
+          <div className="mx-1 font-normal p-1 px-8 rounded-md bg-white text-black">
           <Link href="/login">
               Login
             </Link>

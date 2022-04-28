@@ -38,9 +38,10 @@ const Login = () =>{
         </div>
       </div>
       {verifiedUser?(
-        <div className="flex justify-center items-center flex-col">
-          You are logged in {user}
-          <button className="bg-white text-black p-3 m-5">
+        <div className="flex p-40 justify-center items-center flex-col">
+          <p className="text-2xl">Welcome to EasiFi!</p>
+          <p className="text-2xl">You are logged in {user}</p>
+          <button className="bg-white text-black rounded p-3 m-5">
             <Link href={`/dashboard/${user}`}>
               Move to Dashboard -&gt;
             </Link>
@@ -52,8 +53,8 @@ const Login = () =>{
           SME Login
         </div>
         <div className="px-10 flex justify-around">
-          <div className="w-1/2">
-                <form className="flex flex-col p-2 border-2 rounded-2xl">
+          <div className="w-1/3">
+                <form className="flex flex-col p-2">
                 
                 <span className="flex flex-col m-1  p-2">
                     Email:
@@ -63,8 +64,8 @@ const Login = () =>{
                     Password:
                     <input type="password" className="rounded-md  text-xs border-white text-black p-2" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />            
                 </span>
-                <span className="m-1 p-2">
-                    <button onClick={handleSubmit} type="submit" className="bg-smoke shadow-md px-4 p-2">Login</button>
+                <span className="m-1 mt-8 p-2 self-center">
+                    <button onClick={handleSubmit} type="submit" className="bg-white text-black rounded px-4 p-2">Login</button>
                 </span>
                 
                 </form>
