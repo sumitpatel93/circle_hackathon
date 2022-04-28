@@ -120,7 +120,7 @@ router.post("/login", async (req, res) => {
 });
 
 
-router.get("/userData", async (req, res) => {
+router.post("/userData", async (req, res) => {
   try {
     const userName = req.body.userName;
     const userFromDB = await UserInfo.findOne({ email : userName });
