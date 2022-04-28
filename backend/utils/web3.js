@@ -91,8 +91,8 @@ exports.fetchUserByName = (userName) => {
 }
 
 
-exports.requestFund = async (usersPvtKey,userAddress, userName, amount) => {
-  
+exports.requestFund = async (usersPvtKey, userAddress, userName, amount) => {
+
   const userPvtKey = usersPvtKey;
   const pvtKey = userPvtKey.substring(2)
   var privateKey = new Buffer(pvtKey, 'hex');
@@ -105,8 +105,9 @@ exports.requestFund = async (usersPvtKey,userAddress, userName, amount) => {
     userAddress,
     amount
   ).encodeABI()
-  
+
   const nonce = await web3.eth.getTransactionCount(userAddress);
+  console.log('-->',nonce)
   var rawTx = {
     nonce: web3.utils.toHex(nonce),
     from: userAddress,
@@ -121,12 +122,18 @@ exports.requestFund = async (usersPvtKey,userAddress, userName, amount) => {
   tx.sign(privateKey);
   var serializedTx = tx.serialize();
 
+  try {
+  const data =   web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
+      .on('receipt', console.log)
+      .on('error', console.log)
+      return data
+  } catch (e) {
+    return e
+  }
 
-  web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
-    .on('receipt', console.log);
 }
 
-exports.deposit = async (usersPvtKey,userAddress, userName, amount) => {
+exports.deposit = async (usersPvtKey, userAddress, userName, amount) => {
 
   const userPvtKey = usersPvtKey;
   const pvtKey = userPvtKey.substring(2)
