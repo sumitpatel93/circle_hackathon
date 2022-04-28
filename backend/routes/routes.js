@@ -197,4 +197,27 @@ router.post("/deposit", async (req, res) => {
   }
 });
 
+router.post("/findUser", async (req, res) => {
+  try {
+    const email = req.body.email;
+
+    // Find user by email
+    const user = await UserInfo.findOne({ email });
+    if (user) {
+      // Check password
+      res.status(200).json({
+        Body : user
+      })
+    } else {
+      return res.status(400).json({
+        Body: "EMAIL_NOT_FOUND",
+      });
+    }
+  } catch (e) {
+    return res.status(500).json({
+      Body: "NETWORK_ERROR",
+
+    });
+  }
+});
   module.exports = router;
