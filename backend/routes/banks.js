@@ -8,7 +8,7 @@ const BASE_URL = process.env.BASE_URL
 
 
 /*
-*** create bank id 
+*** create bank id with bak account
 */
 
   router.post('/', (req, res) => {

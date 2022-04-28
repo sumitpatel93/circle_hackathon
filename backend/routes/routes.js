@@ -98,8 +98,7 @@ router.post("/login", async (req, res) => {
         const token = user.token;
         return res.status(200).json({
           body: "Bearer " + token,
-          email : user.email,
-          userName: user.username
+          email : user.email
         });
       } else {
         return res.status(400).json({
@@ -123,16 +122,6 @@ router.post("/login", async (req, res) => {
 router.post("/userData", async (req, res) => {
   try {
     const userName = req.body.userName;
-    const userFromDB = await UserInfo.findOne({ email : userName });
-
-    walletId = "";
-    blockChainAddress = "";
-
-    if (userFromDB)
-    {
-      walletId = userFromDB.walletId;
-      blockChainAddress = userFromDB.blockChainAddress
-    }
     const user = await web3Module.fetchUserByName(userName);
     const userDetails = {
       userAddress : user[0],

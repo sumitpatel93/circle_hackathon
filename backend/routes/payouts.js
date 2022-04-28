@@ -28,7 +28,7 @@ router.get('/', (req, res, next) => {
 */
 router.post('/', async (req, res) => {
 
-      try {
+    try {
         const payerName = req.body.payer;
         const payer = await web3Module.fetchUserByName(payerName);
         const payerWalletid = payer[0];
