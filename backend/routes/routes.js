@@ -142,7 +142,7 @@ router.post("/userData", async (req, res) => {
       userCreditScore : web3.utils.hexToNumberString(user[4]),
       loanStatus : user.userLoans.LoanStatus,
       loanIssueDate : web3.utils.hexToNumberString(user.userLoans.issuedDate._hex),
-      loanAmount : web3.utils.hexToNumberString(user.userLoans.issuedAmount._hex) + 'USDC'
+      loanAmount : web3.utils.hexToNumberString(user.userLoans.issuedAmount._hex) + ' USDC'
     }
     return res
       .status(200)
