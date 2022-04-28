@@ -1,33 +1,48 @@
 import Link from 'next/link'
 import {useEffect} from 'react'
 import {useRouter} from 'next/router';
+import axios from "axios";
 const Dashboard = () => {
 
     const router = useRouter();
     const username = router.query.user;
 
-    const getUserDetails = async(e: any) =>{
-        e.preventDefault();
-          const res = await fetch("http://localhost:3010/circleHackathon/userData", {
-            method: "POST",
-            body: JSON.stringify({
-                email: username
-            }),
-            headers:{
-              'Content-Type': 'application/json'
-            }
-          });
-          const resJson = await res.json();
-          console.log(resJson);
+
+
+    const getUserDetails = async () =>{
+      console.log("heyyaaa")
+          
+      await axios.get("http://localhost:3010/circleHackathon/userData").then(res => {
+        console.log(res)
+      }).catch(e=>{
+        console.log(e)
+      })
       }
+      
+    // useEffect(() => {
+    //   async function getuser() {
+    //     await axios.get('http://localhost:3010/circleHackathon/userData', 
+    //     ).then((response) => {
+    //       console.log(response.data);
+    //     });
+    //   }
+    //   getuser();
+    // }, []);
 
-    useEffect(() => {
-        console.log(username)
-        
-        getUserDetails;
-    }, [])
-    
 
+    const handleSubmit =async(e: any) =>{
+      e.preventDefault();
+      const res = await fetch("http://localhost:3010/circleHackathon/requestFund", {
+          method: "POST",
+          body: JSON.stringify({
+            
+          }),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        });
+        const resJson = await res.json();
+    }
     
 
     return(
@@ -48,8 +63,11 @@ const Dashboard = () => {
             <p className="p-1 text-xl">Account creation date: </p>
             <form>
             <p className="p-1 text-xl">Enter loan amount to be taken: <input type="text" className="text-black m-1 rounded p-0.5" /> </p>
-            <button className="bg-white text-black w-min m-4 p-2 px-4">
+            <button  className="bg-white text-black w-min m-4 p-2 px-4">
                 Submit
+            </button>
+            <button type="button" onClick={getUserDetails }  className="bg-white text-black w-min m-4 p-2 px-4">
+                Get
             </button>
             </form>
             

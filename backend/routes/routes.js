@@ -104,7 +104,7 @@ router.post("/login", async (req, res) => {
       } else {
         return res.status(400).json({
           Body: "INCORRECT_PASSWORD",
-        });
+        }); 
       }
     } else {
       return res.status(400).json({
