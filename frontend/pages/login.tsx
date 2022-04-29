@@ -9,6 +9,7 @@ const Login = () =>{
   const [verifiedUser, setVerifiedUser] = useState(false);
   //const user="";
   const [user,setUser] = useState("");
+  const [error,setError] = useState(false);
 
   const handleSubmit =async(e: any) =>{
     e.preventDefault();
@@ -25,6 +26,7 @@ const Login = () =>{
       const resJson = await res.json();
       setUser(resJson.email);
       if(res.status==200){setVerifiedUser(true)}
+      if(res.status==400 || res.status==404 || res.status==500){setError(true)}
   }
 
     return(
@@ -66,6 +68,13 @@ const Login = () =>{
                 </span>
                 <span className="m-1 mt-8 p-2 self-center">
                     <button onClick={handleSubmit} type="submit" className="bg-white text-black rounded px-4 p-2">Login</button>
+                </span>
+                <span>
+                  {error?(
+                    <p>Incorresct password or email</p>
+                  ):(
+                    <p></p>
+                  )}
                 </span>
                 
                 </form>

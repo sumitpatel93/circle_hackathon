@@ -9,6 +9,7 @@ const Register = () =>{
   const [companyName, setCompanyName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [verifiedUser, setVerifiedUser] = useState(false);
+  const [error, setError] = useState(false)
 
   const handleSubmit = async(e: any) =>{
     e.preventDefault();
@@ -27,6 +28,7 @@ const Register = () =>{
       const resJson = await res.json();
       console.log(resJson);
       if(res.status==200){setVerifiedUser(true);}
+      if(res.status==400 || res.status==404 || res.status==500){setError(true)}
   }
 
 
@@ -39,6 +41,7 @@ const Register = () =>{
           </Link>
         </div>
       </div>
+      
       {verifiedUser?(
         <div className="flex p-40 justify-center items-center flex-col">
           <p className="text-2xl">Welcome to EasiFi!</p> 
@@ -76,7 +79,13 @@ const Register = () =>{
                 <span className="m-1 mt-8 self-center p-2">
                     <button onClick={handleSubmit} type="submit" className=" bg-white text-black rounded shadow-md px-4 p-2">Register</button>
                 </span>
-                
+                <span>
+                  {error?(
+                    <p>Email already registered</p>
+                  ):(
+                    <p></p>
+                  )}
+                </span>
                 </form>
           </div>
           <div className="flex justify-center align-center">
