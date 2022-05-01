@@ -27,7 +27,7 @@ const Dashboard = () => {
         const resJson = await res.json()
         setCreditScore(resJson.Body.userCreditScore);
         setLoan(resJson.Body.loanAmount)
-        setLoan(220);
+        //
         setAddress(resJson.Body.userAddress)
       }
       const findUser =async() =>{
@@ -131,10 +131,10 @@ const Dashboard = () => {
             <p>{created}</p>
           </div>
             
-          <form>
+          <form id="form">
             <div className="flex p-3 text-xl">
               <p className="font-semibold mr-5">Enter loan amount to be taken: </p>
-              <p><input type="number" value={amount} className="text-black m-1 rounded p-0.5" onChange={(e) => setAmount(e.target.value)}/> USDC</p>
+              <p><input type="number" placeholder="0" value={amount} className="text-black m-1 rounded p-0.5" onChange={(e) => setAmount(e.target.value)}/> USDC</p>
             </div>
             <button onClick={handleSubmit} className="bg-white text-black rounded w-min m-4 p-2 px-4">
                 Submit
